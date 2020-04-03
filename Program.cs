@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace asp.net_core_vue
+namespace Colors
 {
     public class Program
     {
@@ -20,7 +20,7 @@ namespace asp.net_core_vue
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("http://*:9103").UseStartup<Startup>();
+                    webBuilder.UseUrls("http://*:9302").UseStartup<Startup>();
                 });
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VueCliMiddleware;
 
-namespace asp.net_core_vue
+namespace Colors
 {
     public class Startup
     {

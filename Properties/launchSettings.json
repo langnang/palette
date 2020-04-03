@@ -1,9 +1,9 @@
 ﻿{
   "profiles": {
-    "asp.net_core_vue": {
+    "Colors": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "https://localhost:9103",
+      "applicationUrl": "https://localhost:9302",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <RootNamespace>asp.net_core_vue</RootNamespace>
+    <RootNamespace>Colors</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
