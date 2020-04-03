@@ -1,2 +1,19 @@
-# Colors
- H5 颜色 配色
+# ASP.NET Core Vue
+
+## Install
+
+- ASP.NET Core
+- Node.js
+- Vue-CLI
+
+## Start
+
+- Start Vue
+  ```bat
+  cd ClientApp
+  npm install
+  ```
+- Start Net Core
+  ```bat
+  dotnet run
+  ```
