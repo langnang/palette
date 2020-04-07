@@ -27,14 +27,26 @@
         <el-row>
             <h1>Color Tools</h1>
         </el-row>
+        <el-row v-for="(item,key) in colors" :key="key">
+            <h1>{{item.name}}</h1>
+            <router-link v-for="i in item.list" :to="'/'+i.name" :key="i.name">
+                <el-tag>{{i.title}}</el-tag>
+            </router-link>
+        </el-row>
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
+import { mapState, mapGetters } from "vuex";
 export default {
     name: "Home",
-    components: {}
+    components: {},
+    computed: {
+        ...mapState({
+            refs: state => state.colors.refs
+        }),
+        ...mapGetters(["colors"])
+    }
 };
 </script>

@@ -1,47 +1,49 @@
 <template>
     <div id="app">
-        <el-button
-            type="primary"
-            icon="el-icon-share"
-            circle
-            :style="{'position':'absolute','right':0,'z-index':1}"
-            @click.native="drawer.visible = true"
-        ></el-button>
-        <router-view v-wechat-title="$route.meta.title+' - Colors'" />
-        <el-drawer title="我是标题" :visible.sync="drawer.visible" :with-header="false">
-            <ul>
-                <el-link
-                    type="primary"
-                    :underline="false"
-                    v-for="(item,index) in refs"
-                    :key="index"
-                    :href="item.link"
-                    target="_blank"
-                    :title="item.title"
-                >
-                    <li>{{item.name}}</li>
-                </el-link>
-            </ul>
-        </el-drawer>
+        <el-scrollbar style="height:100vh;">
+            <el-button
+                type="primary"
+                icon="el-icon-share"
+                circle
+                :style="{'position':'absolute','right':0,'z-index':1}"
+                @click.native="drawer.visible = true"
+            ></el-button>
+            <router-view v-wechat-title="$route.meta.title+' - Colors'" />
+            <el-drawer title="我是标题" :visible.sync="drawer.visible" :with-header="false">
+                <ul>
+                    <li v-for="(item,index) in refs.list" :key="index">
+                        <el-link
+                            type="primary"
+                            :underline="false"
+                            :href="item.link"
+                            target="_blank"
+                            :title="item.name"
+                        >{{item.name}}</el-link>
+                    </li>
+                </ul>
+            </el-drawer>
+        </el-scrollbar>
     </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
     name: "app",
     data() {
         return {
             drawer: {
                 visible: false
-            },
-            refs: [
-                {
-                    name: "「颜值即正义」那些管 UI 小姐姐要来的网站",
-                    title: "「颜值即正义」那些管 UI 小姐姐要来的网站",
-                    link: "https://juejin.im/post/5e7cdee26fb9a03c6e640cc7"
-                }
-            ]
+            }
         };
+    },
+    mounted() {
+        this.$store.dispatch("loadMenu");
+    },
+    computed: {
+        ...mapState({
+            refs: state => state.colors.refs
+        })
     }
 };
 </script>
@@ -66,5 +68,28 @@ body {
 h1 {
     margin-left: 8px;
     color: white;
+}
+.el-scrollbar__wrap {
+    height: calc(100% + 17px) !important;
+}
+.el-col__color {
+    border: 0px;
+    text-align: center;
+    padding: 10px;
+}
+.el-card__color {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    border-radius: 10px !important;
+    border: 0px !important;
+}
+.el-card__color span {
+    display: none;
+    color: white;
+}
+.el-card__color:hover span {
+    display: block;
 }
 </style>

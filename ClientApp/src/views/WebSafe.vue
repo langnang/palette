@@ -4,8 +4,8 @@
         <span v-for="(R,iR) in colors" :key="iR">
             <span v-for="(G,iG) in colors" :key="iG">
                 <span v-for="(B,iB) in colors" :key="iB">
-                    <el-col :span="4" style="text-align:center;padding:10px;">
-                        <el-card class="box-card" :style="{'background-color':'#'+R+G+B}">
+                    <el-col :span="4" class="el-col__color">
+                        <el-card class="el-card__color" :style="{'background-color':'#'+R+G+B}">
                             <span style="line-height:110px;">#{{R}}{{G}}{{B}}</span>
                         </el-card>
                     </el-col>
