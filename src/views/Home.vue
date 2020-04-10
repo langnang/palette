@@ -10,6 +10,20 @@
                 <el-tag>{{i.name}}</el-tag>
             </router-link>
         </el-row>
+        <el-row v-if="utils.length>0">
+            <h1>Color Utils</h1>
+            <el-link
+                type="primary"
+                target="_blank"
+                :underline="false"
+                v-for="(util,key) in utils"
+                :title="util.name"
+                :href="util.link"
+                :key="key"
+            >
+                <el-tag>{{util.name}}</el-tag>
+            </el-link>
+        </el-row>
     </div>
 </template>
 
@@ -23,10 +37,8 @@ export default {
         this.$store.dispatch("loadMenu");
     },
     computed: {
-        ...mapState({
-            refs: state => state.colors.refs
-        }),
-        ...mapGetters(["colors"])
+        ...mapState({}),
+        ...mapGetters(["colors", "utils"])
     }
 };
 </script>

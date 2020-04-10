@@ -88,6 +88,9 @@ h1 {
 }
 .el-tag {
     margin-left: 20px;
+    height: unset !important;
+    font-size: 18px !important;
+    padding: 10px !important;
 }
 .el-col__color {
     border: 0px;

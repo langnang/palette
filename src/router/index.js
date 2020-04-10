@@ -57,14 +57,14 @@ const routes = [
   },
   {
     path: "/palette",
-    name: "Palette Colors",
+    name: "Color Palettes",
     component: RouteView,
     children: [
       {
         path: ":key",
         name: "Palette",
         component: Palette,
-        meta: { title: "Palette Colors" }
+        meta: { title: "Color Palettes" }
       },
     ]
   },
