@@ -66,6 +66,16 @@ export default new Vuex.Store({
         };
       }
       return state.colors.gradient.children[key];
+    },
+    palette: state => key => {
+      if (!state.colors.palette) {
+        return {
+          name: "Palette Color",
+          title: "",
+          children: []
+        };
+      }
+      return state.colors.palette.children[key];
     }
   },
   actions: {

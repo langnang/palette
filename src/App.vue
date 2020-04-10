@@ -109,4 +109,15 @@ h1 {
 .el-card__color:hover span {
     display: block;
 }
+.el-card__palette .el-card__body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+.el-card__palette .el-card__body .el-row {
+    height: 100%;
+}
+.el-card__palette .el-card__body .el-row .el-col {
+    height: 100%;
+}
 </style>

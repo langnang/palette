@@ -4,7 +4,7 @@ import RouteView from '../views/RouteView.vue'
 import Home from '../views/Home.vue'
 import Single from '../views/Single.vue'
 import WebSafe from '../views/WebSafe.vue'
-import Palettes from '../views/Palettes.vue'
+import Palette from '../views/Palette.vue'
 import Random from '../views/Random.vue'
 import Gradient from '../views/Gradient.vue'
 
@@ -35,12 +35,6 @@ const routes = [
         meta: { title: "Random" }
       },
       {
-        path: "palettes",
-        name: "Palettes",
-        component: Palettes,
-        meta: { title: "Palettes" }
-      },
-      {
         path: ":key",
         name: "Single",
         component: Single,
@@ -58,6 +52,19 @@ const routes = [
         name: "Gradient",
         component: Gradient,
         meta: { title: "Gradient Colors" }
+      },
+    ]
+  },
+  {
+    path: "/palette",
+    name: "Palette Colors",
+    component: RouteView,
+    children: [
+      {
+        path: ":key",
+        name: "Palette",
+        component: Palette,
+        meta: { title: "Palette Colors" }
       },
     ]
   },
