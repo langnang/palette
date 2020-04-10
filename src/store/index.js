@@ -40,13 +40,14 @@ export default new Vuex.Store({
     colors: state => {
       let _res = {};
       for (let key in state.colors) {
-        if (key !== 'refs') {
+        if (key !== 'refs' && key !== 'utils') {
           _res[key] = state.colors[key];
         }
       }
       return _res;
     },
     refs: state => state.colors.refs && state.colors.refs.children ? state.colors.refs.children._.children : [],
+    utils: state => state.colors.utils && state.colors.utils.children ? state.colors.utils.children._.children : [],
     single: state => key => {
       if (!state.colors.single) {
         return {
@@ -70,7 +71,7 @@ export default new Vuex.Store({
     palette: state => key => {
       if (!state.colors.palette) {
         return {
-          name: "Palette Color",
+          name: "Color Palette",
           title: "",
           children: []
         };
