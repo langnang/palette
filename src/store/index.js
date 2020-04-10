@@ -85,7 +85,9 @@ export default new Vuex.Store({
         })
     },
     async loadChildren({ state, commit, dispatch }, payload) {
-      await dispatch('loadMenu');
+      if (!state.colors[_type]) {
+        await dispatch('loadMenu');
+      }
       let _type = payload.type;
       let _key = payload.key;
       if (state.colors[_type]) {

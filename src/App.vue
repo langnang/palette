@@ -71,11 +71,20 @@ body {
 h1 {
     margin-left: 8px;
 }
+.particles-js-canvas-el {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
 .el-scrollbar__wrap {
     height: calc(100% + 17px) !important;
 }
 .el-loading-mask .el-icon-close {
     font-size: 40px;
+}
+.el-loading-spinner .path {
+    stroke-width: 4px !important;
 }
 .el-tag {
     margin-left: 20px;
