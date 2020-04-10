@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     user: {
       loading: true,
+      loading_spinner: "",
       loading_text: "页面加载中..."
     },
     colors: {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     setLoadingText(state, payload) {
       state.user.loading_text = payload;
+    },
+    setLoadingSpinner(state, payload) {
+      state.user.loading_spinner = payload;
     },
     pushColorsChild(state, payload) {
       if (!state.colors[payload.key].children) {
@@ -52,6 +56,16 @@ export default new Vuex.Store({
         };
       }
       return state.colors.single.children[key];
+    },
+    gradient: state => key => {
+      if (!state.colors.gradient) {
+        return {
+          name: "Gradient Color",
+          title: "",
+          children: []
+        };
+      }
+      return state.colors.gradient.children[key];
     }
   },
   actions: {
@@ -64,10 +78,10 @@ export default new Vuex.Store({
             commit("setColors", _color);
             commit("setLoading", false);
           }
-        })
-        .catch(() => {
+        }).catch(() => {
           commit("setLoading", true);
           commit("setLoadingText", "页面加载失败，请刷新重试！！！");
+          commit("setLoadingSpinner", "el-icon-close");
         })
     },
     async loadChildren({ state, commit, dispatch }, payload) {
@@ -91,9 +105,6 @@ export default new Vuex.Store({
           let _children = _res.reduce((total, value) => [...total, ...value]);
           commit("setColorsChildren", { type: _type, key: _key, children: _children });
         })
-          .catch(() => {
-            console.log("Error");
-          })
       }
     }
   },

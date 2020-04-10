@@ -1,5 +1,10 @@
 <template>
-    <div id="app" v-loading="user.loading" :element-loading-text="user.loading_text">
+    <div
+        id="app"
+        v-loading="user.loading"
+        :element-loading-text="user.loading_text"
+        :element-loading-spinner="user.loading_spinner"
+    >
         <el-scrollbar style="height:100vh;">
             <el-button
                 type="primary"
@@ -37,9 +42,7 @@ export default {
             }
         };
     },
-    created() {
-        this.$store.dispatch("loadMenu");
-    },
+    created() {},
     mounted() {},
     computed: {
         ...mapState(["user"]),
@@ -70,6 +73,9 @@ h1 {
 }
 .el-scrollbar__wrap {
     height: calc(100% + 17px) !important;
+}
+.el-loading-mask .el-icon-close {
+    font-size: 40px;
 }
 .el-tag {
     margin-left: 20px;

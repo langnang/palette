@@ -6,7 +6,7 @@ import Single from '../views/Single.vue'
 import WebSafe from '../views/WebSafe.vue'
 import Palettes from '../views/Palettes.vue'
 import Random from '../views/Random.vue'
-import Gradients from '../views/Gradients.vue'
+import Gradient from '../views/Gradient.vue'
 
 Vue.use(VueRouter)
 
@@ -21,9 +21,6 @@ const routes = [
     path: "/single",
     name: "Single Color",
     component: RouteView,
-    beforeEnter: (to, from, next) => {
-      next();
-    },
     children: [
       {
         path: "websafe",
@@ -52,17 +49,21 @@ const routes = [
     ],
   },
   {
-    path: "/gradients",
-    name: "Gradients",
-    component: Gradients,
-    meta: { title: "Gradients" }
+    path: "/gradient",
+    name: "Gradient Colors",
+    component: RouteView,
+    children: [
+      {
+        path: ":key",
+        name: "Gradient",
+        component: Gradient,
+        meta: { title: "Gradient Colors" }
+      },
+    ]
   },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
 ]
@@ -74,9 +75,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   next();
 })
-router.afterEach((to, from) => {
-  console.log(to);
-  console.log(from);
-})
+// router.afterEach((to, from) => {
+//   console.log(to);
+//   console.log(from);
+// })
 
 export default router
