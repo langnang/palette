@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" v-loading="user.loading" :element-loading-text="user.loading_text">
         <el-scrollbar style="height:100vh;">
             <el-button
                 type="primary"
@@ -11,7 +11,7 @@
             <router-view v-wechat-title="$route.meta.title+' - Colors'" />
             <el-drawer title="我是标题" :visible.sync="drawer.visible" :with-header="false">
                 <ul>
-                    <li v-for="(item,index) in refs.list" :key="index">
+                    <li v-for="(item,index) in refs" :key="index">
                         <el-link
                             type="primary"
                             :underline="false"
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
     name: "app",
     data() {
@@ -37,13 +37,14 @@ export default {
             }
         };
     },
-    mounted() {
+    created() {
         this.$store.dispatch("loadMenu");
     },
+    mounted() {},
     computed: {
-        ...mapState({
-            refs: state => state.colors.refs
-        })
+        ...mapState(["user"]),
+        ...mapState({}),
+        ...mapGetters(["refs"])
     }
 };
 </script>
@@ -53,7 +54,6 @@ html,
 body {
     margin: 0;
     padding: 0;
-    background-image: url("./assets/assorted-color-string-lights-752484.jpg");
     background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
@@ -67,10 +67,12 @@ body {
 }
 h1 {
     margin-left: 8px;
-    color: white;
 }
 .el-scrollbar__wrap {
     height: calc(100% + 17px) !important;
+}
+.el-tag {
+    margin-left: 20px;
 }
 .el-col__color {
     border: 0px;
