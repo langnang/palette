@@ -19,6 +19,9 @@ import { mapState, mapGetters } from "vuex";
 export default {
     name: "Home",
     components: {},
+    created() {
+        this.$store.dispatch("loadMenu");
+    },
     computed: {
         ...mapState({
             refs: state => state.colors.refs
