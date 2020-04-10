@@ -1,0 +1,10 @@
+{
+    "refs": {
+        "name": "Color References",
+        "number": 2
+    },
+    "pure": {
+        "name": "Pure Color",
+        "number": 1
+    }
+}
