@@ -66,6 +66,16 @@ export default new Vuex.Store({
         };
       }
       return state.colors.gradient.children[key];
+    },
+    palette: state => key => {
+      if (!state.colors.palette) {
+        return {
+          name: "Palette Color",
+          title: "",
+          children: []
+        };
+      }
+      return state.colors.palette.children[key];
     }
   },
   actions: {
@@ -85,7 +95,9 @@ export default new Vuex.Store({
         })
     },
     async loadChildren({ state, commit, dispatch }, payload) {
-      await dispatch('loadMenu');
+      if (!state.colors[_type]) {
+        await dispatch('loadMenu');
+      }
       let _type = payload.type;
       let _key = payload.key;
       if (state.colors[_type]) {
