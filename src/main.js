@@ -6,7 +6,6 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 import 'particles.js';
-import particleJSON from './assets/particles.json';
 
 Vue.config.productionTip = false
 Vue.use(require('vue-wechat-title'))
@@ -17,6 +16,10 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-
-
-window.particlesJS('app', particleJSON);
+window.axios
+  .get("https://langnang.github.io/src/json/particles.js/index.json")
+  .then(res => {
+    if (res.status === 200) {
+      window.particlesJS('app', res.data);
+    }
+  })
