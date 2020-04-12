@@ -2,6 +2,7 @@
   "name": "colors",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://langnang.github.io/Colors/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
