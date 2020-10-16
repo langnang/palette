@@ -3,6 +3,7 @@
 		<el-carousel
 			trigger="click"
 			height="100%"
+			:initial-index="palette_carousel.index"
 			:autoplay="false"
 			indicator-position="none"
 			ref="carousel"
@@ -57,10 +58,9 @@
 		methods: {},
 		watch: {
 			"palette_carousel.index": function (newV) {
-				console.log(this);
-				console.log(this.$refs);
-				console.log(this.$refs.carousel);
-				this.$refs.carousel.setActiveItem(newV);
+				if (this.$refs.carousel) {
+					this.$refs.carousel.setActiveItem(newV);
+				}
 			},
 		},
 	};

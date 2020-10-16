@@ -2,6 +2,7 @@ import { palette } from '@/api';
 export default {
     state: {
         item: {
+            id: 0,
             type: "single",// single,gradient,multi,
             colors: [""],
             name: "",
@@ -20,19 +21,30 @@ export default {
         },
         list: [
             {
+                id: 1,
                 type: "single",
                 colors: ["#000000"],
-                name: "Black"
+                name: "Black",
             },
             {
+                id: 2,
                 type: "gradient",
                 colors: ["#1c92d2", "#f2fcfe"],
-                name: "Telegram"
+                name: "Telegram",
             },
             {
+                id: 3,
                 type: "multi",
-                colors: ["red", "orange", "yellow", "green", "blue", "indigo", "violet"],
-                name: "太阳七色"
+                colors: [
+                    "red",
+                    "orange",
+                    "yellow",
+                    "green",
+                    "blue",
+                    "indigo",
+                    "violet",
+                ],
+                name: "太阳七色",
             },
         ],
         select: [],
@@ -41,11 +53,9 @@ export default {
     mutations: {
         setPaletteItem(state, index = undefined) {
             if (index == undefined) {
-                state.item = {
-                    type: "single",
-                    colors: [""],
-                    name: ""
-                };
+                state.item.type = "single";
+                state.item.colors = [""];
+                state.item.name = "";
             } else {
                 state.item = JSON.parse(JSON.stringify(state.list[index]));
                 state.dialog.index = index;

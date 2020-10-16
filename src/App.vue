@@ -43,16 +43,19 @@
 			if (!api.palette.is()) {
 				api.palette.create([
 					{
+						id: 1,
 						type: "single",
 						colors: ["#000000"],
 						name: "Black",
 					},
 					{
+						id: 2,
 						type: "gradient",
 						colors: ["#1c92d2", "#f2fcfe"],
 						name: "Telegram",
 					},
 					{
+						id: 3,
 						type: "multi",
 						colors: [
 							"red",

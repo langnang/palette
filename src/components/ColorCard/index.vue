@@ -5,7 +5,6 @@
 			v-for="(palette, index) in palette_list"
 			:key="index"
 			class="el-col"
-			:title="palette.name + '：[' + palette.colors + ']'"
 			:style="{
 				position: 'relative',
 			}"
@@ -68,7 +67,7 @@
 				<el-popconfirm
 					title="确定要删除吗"
 					@onConfirm="deletePalette(index)"
-					:style="{ 'margin-left': '10px' }"
+					:style="{ margin: '0 10px' }"
 				>
 					<el-button
 						icon="el-icon-delete"
@@ -76,6 +75,7 @@
 						slot="reference"
 					></el-button>
 				</el-popconfirm>
+				<el-button icon="el-icon-info" circle v-if="false"></el-button>
 			</div>
 		</el-col>
 	</el-row>
