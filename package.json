@@ -1,8 +1,8 @@
 {
-  "name": "colors",
-  "version": "1.0.0",
+  "name": "palette",
+  "version": "0.0.1",
   "private": true,
-  "homepage": "https://langnang.github.io/Colors/",
+  "homepage": "https://langnang.github.io/Palette/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

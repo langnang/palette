@@ -5,7 +5,7 @@
 			:visible.sync="palette_dialog.visible"
 			:close-on-press-escape="false"
 			:close-on-click-modal="false"
-			@before-close="$store.commit('setPaletteItem')"
+			@closed="$store.commit('setPaletteItem')"
 		>
 			<el-form :model="palette" :rules="rules" ref="palette">
 				<el-form-item label="名称" :label-width="labelWidth">

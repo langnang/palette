@@ -19,6 +19,7 @@
 	import PaletteDialog from "@/components/PaletteDialog";
 	import PaletteCarouselDialog from "./components/PaletteCarouselDialog";
 	import { mapState, mapGetters } from "vuex";
+	import { list as palette_data_list } from "@/data/palette";
 	import api from "@/api";
 	export default {
 		name: "app",
@@ -41,37 +42,9 @@
 		},
 		created() {
 			if (!api.palette.is()) {
-				api.palette.create([
-					{
-						id: 1,
-						type: "single",
-						colors: ["#000000"],
-						name: "Black",
-					},
-					{
-						id: 2,
-						type: "gradient",
-						colors: ["#1c92d2", "#f2fcfe"],
-						name: "Telegram",
-					},
-					{
-						id: 3,
-						type: "multi",
-						colors: [
-							"red",
-							"orange",
-							"yellow",
-							"green",
-							"blue",
-							"indigo",
-							"violet",
-						],
-						name: "太阳七色",
-					},
-				]);
-			} else {
-				this.$store.commit("setPaletteList", api.palette.list());
+				api.palette.create(palette_data_list());
 			}
+			this.$store.commit("setPaletteList", api.palette.list());
 		},
 		mounted() {},
 	};

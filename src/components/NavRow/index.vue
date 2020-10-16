@@ -77,7 +77,6 @@
 				@click="addPalette()"
 			></el-button>
 			<el-button
-				v-if="false"
 				icon="el-icon-delete"
 				circle
 				:disabled="palette_select.length ? false : true"
@@ -112,7 +111,8 @@
 					type: "warning",
 				})
 					.then(() => {
-						console.log(this.palette_select);
+						// console.log(this.palette_select);
+						this.$store.dispatch("batchDeletePalette");
 						this.$message({
 							type: "success",
 							message: "删除成功!",

@@ -1,12 +1,9 @@
-import { palette } from '@/api';
+import { palette as api_palette } from '@/api';
+import * as palette_data from '@/data/palette';
 export default {
     state: {
-        item: {
-            id: 0,
-            type: "single",// single,gradient,multi,
-            colors: [""],
-            name: "",
-        },
+        _id: 0,
+        item: palette_data.item(),
         dialog: {
             visible: false,
             target: "insert",// insert update
@@ -19,50 +16,24 @@ export default {
         filter: {
             type: "all",
         },
-        list: [
-            {
-                id: 1,
-                type: "single",
-                colors: ["#000000"],
-                name: "Black",
-            },
-            {
-                id: 2,
-                type: "gradient",
-                colors: ["#1c92d2", "#f2fcfe"],
-                name: "Telegram",
-            },
-            {
-                id: 3,
-                type: "multi",
-                colors: [
-                    "red",
-                    "orange",
-                    "yellow",
-                    "green",
-                    "blue",
-                    "indigo",
-                    "violet",
-                ],
-                name: "太阳七色",
-            },
-        ],
+        list: [],
         select: [],
         series: [],
     },
     mutations: {
+        setPalette() { },
+        setPaletteColor() { },
         setPaletteItem(state, index = undefined) {
             if (index == undefined) {
-                state.item.type = "single";
-                state.item.colors = [""];
-                state.item.name = "";
+                state.item = palette_data.item(state._id);
             } else {
                 state.item = JSON.parse(JSON.stringify(state.list[index]));
                 state.dialog.index = index;
             }
         },
-        setPaletteList(state, payload) {
-            state.list = payload;
+        setPaletteList(state, list) {
+            state.list.splice(0, 0, ...list);
+            state._id = list.reduce((total, val) => total > val.id ? total : val.id + 1, state._id);
         },
         addPaletteColor(state) {
             state.item.colors.push("");
@@ -79,16 +50,29 @@ export default {
     },
     actions: {
         insertPalette({ state }) {
+            state.item.id = state._id;
             state.list.push(JSON.parse(JSON.stringify(state.item)));
-            palette.insert(state.item);
+            api_palette.insert(state.item);
+            state._id = state._id + 1;
         },
         deletePalette({ state }, index) {
             state.list.splice(index, 1);
-            palette.del(index);
+            api_palette.del(index);
+        },
+        batchDeletePalette({ state },) {
+            state.select.forEach(id => {
+                for (let i = 0; i <= state.list.length - 1; i++) {
+                    if (id === state.list[i].id) {
+                        state.list.splice(i, 1);
+                    }
+                }
+            })
+            state.select = [];
+            api_palette.create(state.list);
         },
         updatePalette({ state }) {
             state.list.splice(state.dialog.index, 1, JSON.parse(JSON.stringify(state.item)));
-            palette.update(state.dialog.index, JSON.parse(JSON.stringify(state.item)));
+            api_palette.update(state.dialog.index, JSON.parse(JSON.stringify(state.item)));
         },
     }
 }

@@ -10,7 +10,9 @@
 			}"
 		>
 			<i
-				:class="[is_select(index) === true ? 'el-icon-success' : '']"
+				:class="[
+					is_select(palette.id) === true ? 'el-icon-success' : '',
+				]"
 				:style="{
 					position: 'absolute',
 					right: '5px',
@@ -22,7 +24,7 @@
 				v-if="palette.type === 'single'"
 				class="el-card__palette"
 				:style="{ 'background-color': palette.colors[0] }"
-				@click.native="clickCard(index)"
+				@click.native="clickCard(palette.id)"
 			>
 			</el-card>
 			<el-card
@@ -31,13 +33,13 @@
 				:style="{
 					background: $gradient(palette.colors),
 				}"
-				@click.native="clickCard(index)"
+				@click.native="clickCard(palette.id)"
 			>
 			</el-card>
 			<el-card
 				v-else-if="palette.type === 'multi'"
 				class="el-card__palette"
-				@click.native="clickCard(index)"
+				@click.native="clickCard(palette.id)"
 			>
 				<span
 					class="el-card__body-multi"
@@ -107,17 +109,17 @@
 				this.palette_carousel.index = index;
 				this.palette_carousel.visible = true;
 			},
-			clickCard(index) {
-				const _index = this.palette_select.indexOf(index);
+			clickCard(id) {
+				const _index = this.palette_select.indexOf(id);
 				if (_index == -1) {
-					this.palette_select.push(index);
+					this.palette_select.push(id);
 				} else {
 					this.palette_select.splice(_index, 1);
 				}
 				this.palette_select.sort();
 			},
-			is_select(index) {
-				return this.palette_select.filter((v) => v === index).length != 0
+			is_select(id) {
+				return this.palette_select.filter((v) => v === id).length != 0
 					? true
 					: false;
 			},
