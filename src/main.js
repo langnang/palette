@@ -1,15 +1,14 @@
 import Vue from 'vue'
-import './plugins/axios'
-import './plugins/fontawesome'
+import './plugins'
+import './globals'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './plugins/element.js'
-import 'particles.js';
-import particleJSON from './assets/particles.json';
+// import 'particles.js';
 
 Vue.config.productionTip = false
 Vue.use(require('vue-wechat-title'))
+
 
 new Vue({
   router,
@@ -18,5 +17,3 @@ new Vue({
 }).$mount('#app')
 
 
-
-window.particlesJS('app', particleJSON);

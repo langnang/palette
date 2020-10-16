@@ -1,17 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import palette from './modules/palette';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: {
+    palette,
+  },
   state: {
     user: {
-      loading: true,
+      loading: false,
       loading_spinner: "",
       loading_text: "页面加载中..."
     },
     colors: {
     },
+
   },
   mutations: {
     setColors(state, payload) {
@@ -34,7 +39,8 @@ export default new Vuex.Store({
     },
     setColorsChildren(state, payload) {
       state.colors[payload.type].children[payload.key].children = payload.children;
-    }
+    },
+
   },
   getters: {
     colors: state => {
@@ -82,7 +88,7 @@ export default new Vuex.Store({
   actions: {
     async loadMenu({ commit }) {
       return this._vm.$axios
-        .get("https://api.github.com/repos/langnang/colors/issues/1")
+        .get("https://api.github.com/repos/langnang/Palette/issues/1")
         .then(res => {
           if (res.status === 200) {
             const _color = JSON.parse(res.data.body.replace(/```json|```/g, ""));
@@ -90,7 +96,7 @@ export default new Vuex.Store({
             commit("setLoading", false);
           }
         }).catch(() => {
-          commit("setLoading", true);
+          // commit("setLoading", true);
           commit("setLoadingText", "页面加载失败，请刷新重试！！！");
           commit("setLoadingSpinner", "el-icon-close");
         })
@@ -105,7 +111,7 @@ export default new Vuex.Store({
         Promise.all(state.colors[_type].children[_key].numbers.map(v => {
           return new Promise((resolve, reject) => {
             this._vm.$axios
-              .get(`https://api.github.com/repos/langnang/colors/issues/${v}`)
+              .get(`https://api.github.com/repos/langnang/Palette/issues/${v}`)
               .then(res => {
                 if (res.status === 200) {
                   resolve(JSON.parse(res.data.body.replace(/```json|```/g, "")));
@@ -119,6 +125,6 @@ export default new Vuex.Store({
           commit("setColorsChildren", { type: _type, key: _key, children: _children });
         })
       }
-    }
+    },
   },
 })
