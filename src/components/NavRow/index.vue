@@ -82,11 +82,18 @@
 				:disabled="palette_select.length ? false : true"
 				@click="deletePalette()"
 			></el-button>
+			<el-button
+				icon="el-icon-download"
+				circle
+				:disabled="palette_select.length ? false : true"
+				@click="downloadPaletteList()"
+			></el-button>
 		</span>
 	</el-menu>
 </template>
 <script>
 	import { mapState, mapGetters } from "vuex";
+	import FileSaver from "file-saver";
 	export default {
 		data() {
 			return {};
@@ -94,6 +101,7 @@
 		computed: {
 			...mapState({
 				palette_dialog: (state) => state.palette.dialog,
+				palette_list: (state) => state.palette.list,
 				palette_select: (state) => state.palette.select,
 				palette_filter: (state) => state.palette.filter,
 			}),
@@ -124,6 +132,16 @@
 							message: "已取消删除",
 						});
 					});
+			},
+			downloadPaletteList() {
+				let data = this.palette_list.filter(
+					(v) => this.palette_select.indexOf(v.id) != -1
+				);
+				var content = JSON.stringify(data);
+				var blob = new Blob([content], {
+					type: "text/plain;charset=utf-8",
+				});
+				FileSaver.saveAs(blob, "palette_list.json");
 			},
 		},
 		watch: {},
