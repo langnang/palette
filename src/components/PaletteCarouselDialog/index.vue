@@ -21,7 +21,7 @@
 					v-else-if="palette.type === 'gradient'"
 					class="el-card__color"
 					:style="{
-						background: gradient(palette.colors),
+						background: $gradient(palette.colors),
 					}"
 				>
 				</el-card>
@@ -41,7 +41,7 @@
 	</el-dialog>
 </template>
 <script>
-	import { mapState } from "vuex";
+	import { mapState, mapGetters } from "vuex";
 	export default {
 		data() {
 			return {
@@ -50,18 +50,16 @@
 		},
 		computed: {
 			...mapState({
-				palette_list: (state) => state.palette.list,
 				palette_carousel: (state) => state.palette.carousel,
 			}),
+			...mapGetters(["palette_list"]),
 		},
-		methods: {
-			gradient(colors) {
-				return `linear-gradient(to right, ${colors.join(",")})`;
-			},
-		},
+		methods: {},
 		watch: {
 			"palette_carousel.index": function (newV) {
-				console.log(newV);
+				console.log(this);
+				console.log(this.$refs);
+				console.log(this.$refs.carousel);
 				this.$refs.carousel.setActiveItem(newV);
 			},
 		},
@@ -72,10 +70,10 @@
 		display: none;
 	}
 	::v-deep .el-dialog__body {
-		padding: 0;
+		// padding: 0;
 	}
 	::v-deep .el-carousel {
-		height: 100vh;
+		height: calc(100vh - 60px);
 	}
 	::v-deep .el-card {
 		height: 100%;

@@ -29,6 +29,9 @@
 					label="单色"
 					v-if="palette.type === 'single'"
 					:label-width="labelWidth"
+					:style="{
+						height: '40px',
+					}"
 				>
 					<el-color-picker
 						v-model="palette.colors[0]"
@@ -38,6 +41,9 @@
 					label="渐变"
 					v-if="palette.type === 'gradient'"
 					:label-width="labelWidth"
+					:style="{
+						height: '40px',
+					}"
 				>
 					<el-color-picker
 						v-for="(color, index) in palette.colors"
@@ -58,6 +64,9 @@
 					label="多色"
 					v-if="palette.type === 'multi'"
 					:label-width="labelWidth"
+					:style="{
+						height: '40px',
+					}"
 				>
 					<el-color-picker
 						v-for="(color, index) in palette.colors"
@@ -73,6 +82,33 @@
 						}"
 						@click="$store.commit('addPaletteColor')"
 					></el-button>
+				</el-form-item>
+				<el-form-item label="预览" :label-width="labelWidth">
+					<el-card
+						class="el-card__palette"
+						v-if="palette.type === 'single'"
+						:style="{ 'background-color': palette.colors[0] }"
+					>
+					</el-card>
+					<el-card
+						class="el-card__palette"
+						v-else-if="palette.type === 'gradient'"
+						:style="{
+							background: $gradient(palette.colors),
+						}"
+					>
+					</el-card>
+					<el-card
+						class="el-card__palette"
+						v-else-if="palette.type === 'multi'"
+					>
+						<span
+							class="el-card__body-multi"
+							v-for="color in palette.colors"
+							:key="color"
+							:style="{ 'background-color': color }"
+						></span>
+					</el-card>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -140,6 +176,9 @@
 </script>
 
 <style lang="scss" scoped>
+	::v-deep .el-form-item__content {
+		height: 40px;
+	}
 	::v-deep .el-color-picker__trigger {
 		// height: 60px;
 		// width: 60px;

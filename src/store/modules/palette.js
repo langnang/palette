@@ -1,11 +1,10 @@
 import { palette } from '@/api';
-console.log(palette);
 export default {
     state: {
         item: {
             type: "single",// single,gradient,multi,
             colors: [""],
-            name: ""
+            name: "",
         },
         dialog: {
             visible: false,
@@ -15,6 +14,9 @@ export default {
         carousel: {
             visible: false,
             index: 0,
+        },
+        filter: {
+            type: "all",
         },
         list: [
             {
@@ -34,6 +36,7 @@ export default {
             },
         ],
         select: [],
+        series: [],
     },
     mutations: {
         setPaletteItem(state, index = undefined) {
@@ -49,7 +52,6 @@ export default {
             }
         },
         setPaletteList(state, payload) {
-            console.log(payload);
             state.list = payload;
         },
         addPaletteColor(state) {
@@ -57,6 +59,13 @@ export default {
         }
     },
     getters: {
+        palette_list: (state) => {
+            if (state.filter.type == 'all') {
+                return state.list;
+            } else {
+                return state.list.filter(v => v.type === state.filter.type);
+            }
+        },
     },
     actions: {
         insertPalette({ state }) {

@@ -64,12 +64,23 @@
 					'margin-right': '30px',
 				}"
 			>
+				<el-select
+					v-model="palette_filter.type"
+					placeholder="请选择"
+					:style="{ 'margin-right': '10px', width: '80px' }"
+				>
+					<el-option label="全部" value="all"> </el-option>
+					<el-option label="单色" value="single"> </el-option>
+					<el-option label="渐变" value="gradient"> </el-option>
+					<el-option label="多色" value="multi"> </el-option>
+				</el-select>
 				<el-button
 					icon="el-icon-plus"
 					circle
 					@click="addPalette()"
 				></el-button>
 				<el-button
+					v-if="false"
 					icon="el-icon-delete"
 					circle
 					:disabled="palette_select.length ? false : true"
@@ -89,6 +100,7 @@
 			...mapState({
 				palette_dialog: (state) => state.palette.dialog,
 				palette_select: (state) => state.palette.select,
+				palette_filter: (state) => state.palette.filter,
 			}),
 			...mapGetters([]),
 		},

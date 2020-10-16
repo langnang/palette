@@ -4,12 +4,11 @@
 			:span="4"
 			v-for="(palette, index) in palette_list"
 			:key="index"
-			class="el-col__color"
+			class="el-col"
 			:title="palette.name + '：[' + palette.colors + ']'"
 			:style="{
 				position: 'relative',
 			}"
-			@click.native="clickCard(index)"
 		>
 			<i
 				:class="[is_select(index) === true ? 'el-icon-success' : '']"
@@ -22,34 +21,38 @@
 			></i>
 			<el-card
 				v-if="palette.type === 'single'"
-				class="el-card__color"
+				class="el-card__palette"
 				:style="{ 'background-color': palette.colors[0] }"
+				@click.native="clickCard(index)"
 			>
 			</el-card>
 			<el-card
 				v-else-if="palette.type === 'gradient'"
-				class="el-card__color"
+				class="el-card__palette"
 				:style="{
-					background: gradient(palette.colors),
+					background: $gradient(palette.colors),
 				}"
+				@click.native="clickCard(index)"
 			>
 			</el-card>
 			<el-card
 				v-else-if="palette.type === 'multi'"
-				class="el-card__color"
+				class="el-card__palette"
+				@click.native="clickCard(index)"
 			>
 				<span
-					class="color-multi"
+					class="el-card__body-multi"
 					v-for="color in palette.colors"
 					:key="color"
 					:style="{ 'background-color': color }"
 				></span>
 			</el-card>
 			<div
+				class="el-palette"
 				:style="{
-					'margin-top': '-12px',
+					'margin-top': '-24px',
 					position: 'absolute',
-					width: '100%',
+					width: 'calc(100% - 20px)',
 				}"
 			>
 				<el-button
@@ -86,16 +89,12 @@
 		computed: {
 			...mapState({
 				palette_dialog: (state) => state.palette.dialog,
-				palette_list: (state) => state.palette.list,
 				palette_select: (state) => state.palette.select,
 				palette_carousel: (state) => state.palette.carousel,
 			}),
-			...mapGetters([]),
+			...mapGetters(["palette_list"]),
 		},
 		methods: {
-			gradient(colors) {
-				return `linear-gradient(to right, ${colors.join(",")})`;
-			},
 			editPalette(index) {
 				this.palette_dialog.target = "update";
 				this.palette_dialog.visible = true;
@@ -122,37 +121,28 @@
 					? true
 					: false;
 			},
+			downloadPalette(index) {
+				console.log(index);
+			},
 		},
 	};
 </script>
 <style lang="scss" scoped>
-	.color-box {
+	::v-deep .el-col {
+		padding: 10px 0;
 		height: 150px;
+		text-align: center;
 	}
-	.box-card {
-		height: 150px;
-		border-radius: 10px;
-	}
-	.box-card .el-card__body {
-		padding: 0 0 20px 0;
-	}
-	.box-card span {
-		display: none;
-		color: white;
-	}
-	.box-card:hover span {
-		display: block;
-	}
-	::v-deep .el-card__body {
-		width: 100%;
-		height: 100%;
-		padding: 0;
-		display: flex;
-	}
-	.color-multi {
-		display: inline-block;
-		flex-grow: 1;
-	}
+	// .box-card .el-card__body {
+	// 	padding: 0 0 20px 0;
+	// }
+	// .box-card span {
+	// 	display: none;
+	// 	color: white;
+	// }
+	// .box-card:hover span {
+	// 	display: block;
+	// }
 	::v-deep .el-button.is-circle {
 		padding: 5px;
 		font-size: 5px;

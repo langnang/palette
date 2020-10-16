@@ -74,7 +74,7 @@
 	};
 </script>
 
-<style>
+<style lang="scss">
 	html,
 	body {
 		margin: 0;
@@ -117,35 +117,38 @@
 		font-size: 18px !important;
 		padding: 10px !important;
 	}
-	.el-col__color {
-		border: 0px;
-		text-align: center;
-		padding: 10px;
-	}
-	.el-card__color {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 150px;
-		border-radius: 10px !important;
-		border: 0px !important;
-	}
-	.el-card__color span {
-		display: none;
-		color: white;
-	}
-	.el-card__color:hover span {
-		display: block;
-	}
-	.el-card__palette .el-card__body {
-		width: 100%;
+	// .el-col__color {
+	// 	border: 0px;
+	// 	text-align: center;
+	// 	padding: 10px;
+	// }
+	// .el-card__color {
+	// 	display: flex;
+	// 	justify-content: center;
+	// 	align-items: center;
+	// 	height: 150px;
+	// 	border-radius: 10px !important;
+	// 	border: 0px !important;
+	// }
+	// .el-card__color span {
+	// 	display: none;
+	// 	color: white;
+	// }
+	// .el-card__color:hover span {
+	// 	display: block;
+	// }
+	.el-card__palette {
 		height: 100%;
-		padding: 0;
-	}
-	.el-card__palette .el-card__body .el-row {
-		height: 100%;
-	}
-	.el-card__palette .el-card__body .el-row .el-col {
-		height: 100%;
+		border-radius: 10px;
+		.el-card__body {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			display: flex;
+		}
+		.el-card__body-multi {
+			display: inline-block;
+			flex-grow: 1;
+		}
 	}
 </style>
