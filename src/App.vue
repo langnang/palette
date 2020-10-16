@@ -44,7 +44,11 @@
 			if (!api.palette.is()) {
 				api.palette.create(palette_data_list());
 			}
-			this.$store.commit("setPaletteList", api.palette.list());
+			api.palette.list().then((res) => {
+				if (res.data.status == 200) {
+					this.$store.commit("setPaletteList", res.data.data);
+				}
+			});
 		},
 		mounted() {},
 	};

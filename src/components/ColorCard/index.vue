@@ -64,7 +64,7 @@
 				<el-button
 					icon="el-icon-edit"
 					circle
-					@click="editPalette(index)"
+					@click="editPalette(palette.id)"
 				></el-button>
 				<el-popconfirm
 					title="确定要删除吗"
@@ -97,10 +97,10 @@
 			...mapGetters(["palette_list"]),
 		},
 		methods: {
-			editPalette(index) {
+			editPalette(id) {
 				this.palette_dialog.target = "update";
 				this.palette_dialog.visible = true;
-				this.$store.commit("setPaletteItem", index);
+				this.$store.commit("setPaletteItem", id);
 			},
 			deletePalette(index) {
 				this.$store.dispatch("deletePalette", index);
