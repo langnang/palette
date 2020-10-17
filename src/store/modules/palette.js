@@ -23,12 +23,12 @@ export default {
     mutations: {
         setPalette() { },
         setPaletteColor() { },
-        setPaletteItem(state, id = undefined) {
-            if (id == undefined) {
+        setPaletteItem(state, index = undefined) {
+            if (index == undefined) {
                 state.item = palette_data.item(state._id);
             } else {
-                state.item = JSON.parse(JSON.stringify(state.list.filter(v => v.id === id)[0]));
-                state.dialog.index = id;
+                state.item = JSON.parse(JSON.stringify(state.list[index]));
+                state.dialog.index = index;
             }
         },
         setPaletteList(state, list) {
@@ -48,19 +48,44 @@ export default {
                 return state.list.filter(v => v.type === state.filter.type);
             }
         },
+        palette_active: (state) => (id) => {
+            return state.filter(v => v.id === id)[0];
+        }
     },
     actions: {
         insertPalette({ state }) {
-            state.item.id = state._id;
-            state.list.push(JSON.parse(JSON.stringify(state.item)));
-            api_palette.insert(state.item).then(res => {
-                console.log(res);
-            });
-            state._id = state._id + 1;
+            api_palette.insert(state.item)
+                .then(res => {
+                    if (res.data.status === 200) {
+                        this._vm.$message({
+                            type: "success",
+                            message: "新增成功!",
+                        });
+                        state.list.push(JSON.parse(JSON.stringify(res.data.data)));
+                    } else {
+                        this._vm.$message({
+                            type: "error",
+                            message: "新增失败!",
+                        });
+                    }
+                });
         },
         deletePalette({ state }, index) {
-            state.list.splice(index, 1);
-            api_palette.del(index);
+            api_palette.del(JSON.parse(JSON.stringify(state.list[index])))
+                .then(res => {
+                    if (res.data.status === 200) {
+                        this._vm.$message({
+                            type: "success",
+                            message: "删除成功!",
+                        });
+                        state.list.splice(index, 1);
+                    } else {
+                        this._vm.$message({
+                            type: "error",
+                            message: "删除失败!",
+                        });
+                    }
+                });
         },
         batchDeletePalette({ state },) {
             state.select.forEach(id => {
@@ -74,8 +99,21 @@ export default {
             api_palette.create(state.list);
         },
         updatePalette({ state }) {
-            state.list.splice(state.dialog.index, 1, JSON.parse(JSON.stringify(state.item)));
-            api_palette.update(state.dialog.index, JSON.parse(JSON.stringify(state.item)));
+            api_palette.update(JSON.parse(JSON.stringify(state.item)))
+                .then(res => {
+                    if (res.data.status === 200) {
+                        this._vm.$message({
+                            type: "success",
+                            message: "更新成功!",
+                        });
+                        state.list.splice(state.dialog.index, 1, JSON.parse(JSON.stringify(res.data.data)));
+                    } else {
+                        this._vm.$message({
+                            type: "error",
+                            message: "更新失败!",
+                        });
+                    }
+                })
         },
     }
 }

@@ -19,7 +19,7 @@ module.exports = {
         config
             .plugin('html')
             .tap(args => {
-                args[0].title = '调色板（离线缓存版）'// 自定义标题
+                args[0].title = '调色板'// 自定义标题
                 return args
             })
     },

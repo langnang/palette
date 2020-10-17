@@ -19,7 +19,6 @@
 	import PaletteDialog from "@/components/PaletteDialog";
 	import PaletteCarouselDialog from "./components/PaletteCarouselDialog";
 	import { mapState, mapGetters } from "vuex";
-	import { list as palette_data_list } from "@/data/palette";
 	import api from "@/api";
 	export default {
 		name: "app",
@@ -41,9 +40,6 @@
 			...mapGetters(["refs"]),
 		},
 		created() {
-			if (!api.palette.is()) {
-				api.palette.create(palette_data_list());
-			}
 			api.palette.list().then((res) => {
 				if (res.data.status == 200) {
 					this.$store.commit("setPaletteList", res.data.data);
