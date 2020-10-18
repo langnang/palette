@@ -88,6 +88,9 @@
 				:disabled="palette_select.length ? false : true"
 				@click="downloadPaletteList()"
 			></el-button>
+			<el-button circle v-if="false">
+				<font-awesome-icon :icon="['fas', 'user']" />
+			</el-button>
 		</span>
 	</el-menu>
 </template>
@@ -165,7 +168,7 @@
 		background-color: transparent;
 	}
 	::v-deep .el-button.is-circle {
-		font-size: 5px;
+		font-size: 17px;
 		padding: 5px;
 	}
 	.el-button {

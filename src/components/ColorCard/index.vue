@@ -48,14 +48,7 @@
 					:style="{ 'background-color': color }"
 				></span>
 			</el-card>
-			<div
-				class="el-palette"
-				:style="{
-					'margin-top': '-24px',
-					position: 'absolute',
-					width: 'calc(100% - 20px)',
-				}"
-			>
+			<div class="el-palette__icons" :style="{}">
 				<el-button
 					icon="el-icon-view"
 					circle
@@ -78,6 +71,9 @@
 					></el-button>
 				</el-popconfirm>
 				<el-button icon="el-icon-info" circle v-if="false"></el-button>
+				<font-awesome-icon :icon="['far', 'thumbs-up']" /> 0
+				<font-awesome-icon :icon="['far', 'heart']" /> 0
+				<font-awesome-icon :icon="['far', 'star']" /> 0
 			</div>
 		</el-col>
 	</el-row>
@@ -145,9 +141,15 @@
 	::v-deep .el-button.is-circle {
 		padding: 5px;
 		font-size: 5px;
-		display: none;
 	}
-	::v-deep .el-col:hover .el-button.is-circle {
+	::v-deep .el-palette__icons {
+		display: none;
+		margin-top: -24px;
+		position: absolute;
+		width: calc(100% - 20px);
+		left: 0;
+	}
+	::v-deep .el-col:hover .el-palette__icons {
 		display: inline-block;
 	}
 </style>
