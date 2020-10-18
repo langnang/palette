@@ -16,9 +16,12 @@ export default new Vuex.Store({
     },
     colors: {
     },
-
+    navs: [],
   },
   mutations: {
+    setNavs(state, payload) {
+      state.navs = payload;
+    },
     setColors(state, payload) {
       state.colors = payload;
     },

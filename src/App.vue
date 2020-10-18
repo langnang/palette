@@ -45,6 +45,11 @@
 					this.$store.commit("setPaletteList", res.data.data);
 				}
 			});
+			api.nav.list().then((res) => {
+				if (res.data.status == 200) {
+					this.$store.commit("setNavs", res.data.data.children);
+				}
+			});
 		},
 		mounted() {},
 	};

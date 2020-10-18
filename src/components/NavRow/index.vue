@@ -10,7 +10,19 @@
 		<el-menu-item index="home">
 			<router-link to="/"> 首页 </router-link>
 		</el-menu-item>
-		<el-submenu index="sigle">
+		<el-submenu v-for="nav_1 in navs" :key="nav_1.id" :index="nav_1.type">
+			<template slot="title">{{ nav_1.name }}</template>
+			<el-menu-item
+				v-for="nav_2 in nav_1.children"
+				:key="nav_2.id"
+				:index="nav_1.type + '-' + nav_2.id"
+			>
+				<a :href="nav_2.link" target="_blank">
+					{{ nav_2.name }}
+				</a>
+			</el-menu-item>
+		</el-submenu>
+		<!-- <el-submenu index="sigle">
 			<template slot="title">单色类</template>
 			<el-menu-item index="sigle-1">
 				<router-link to="/single/websafe"> 216 Web 安全色 </router-link>
@@ -53,7 +65,7 @@
 					Tool
 				</a>
 			</el-menu-item>
-		</el-submenu>
+		</el-submenu> -->
 		<span
 			:style="{
 				'line-height': '60px',
@@ -107,6 +119,7 @@
 				palette_list: (state) => state.palette.list,
 				palette_select: (state) => state.palette.select,
 				palette_filter: (state) => state.palette.filter,
+				navs: (state) => state.navs,
 			}),
 			...mapGetters([]),
 		},
@@ -144,6 +157,9 @@
 <style lang="scss" scoped>
 	a {
 		text-decoration: none;
+	}
+	a:-webkit-any-link {
+		color: white;
 	}
 	.theme-dark {
 		::v-deep .el-select {
