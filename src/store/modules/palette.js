@@ -32,7 +32,6 @@ export default {
             }
         },
         setPaletteList(state, list) {
-            console.log(list);
             state.list.splice(0, 0, ...list);
             state._id = list.reduce((total, val) => total > val.id ? total : val.id + 1, state._id);
         },

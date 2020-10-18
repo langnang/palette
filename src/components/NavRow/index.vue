@@ -64,9 +64,9 @@
 			<el-select
 				v-model="palette_filter.type"
 				placeholder="请选择"
-				:style="{ 'margin-right': '10px', width: '110px' }"
+				:style="{ 'margin-right': '10px', width: '90px' }"
 			>
-				<el-option label="全部色类" value="all"> </el-option>
+				<el-option label="全部" value="all"> </el-option>
 				<el-option label="单色" value="single"> </el-option>
 				<el-option label="渐变" value="gradient"> </el-option>
 				<el-option label="多色" value="multi"> </el-option>
@@ -121,17 +121,8 @@
 					.then(() => {
 						// console.log(this.palette_select);
 						this.$store.dispatch("batchDeletePalette");
-						this.$message({
-							type: "success",
-							message: "删除成功!",
-						});
 					})
-					.catch(() => {
-						this.$message({
-							type: "info",
-							message: "已取消删除",
-						});
-					});
+					.catch(() => {});
 			},
 			downloadPaletteList() {
 				let data = this.palette_list.filter(

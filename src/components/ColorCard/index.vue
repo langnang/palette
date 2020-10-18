@@ -1,5 +1,5 @@
 <template>
-	<el-row :gutter="20" style="margin-left: 0; margin-right: 0">
+	<el-row :gutter="10" style="margin-left: 0; margin-right: 0">
 		<el-col
 			:span="4"
 			v-for="(palette, index) in palette_list"
@@ -128,7 +128,7 @@
 </script>
 <style lang="scss" scoped>
 	::v-deep .el-col {
-		padding: 10px 0;
+		padding: 6px 0;
 		height: 150px;
 		text-align: center;
 	}
