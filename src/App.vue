@@ -50,6 +50,12 @@
 					this.$store.commit("setNavs", res.data.data.children);
 				}
 			});
+			if (window.localStorage.getItem("token")) {
+				this.$store.dispatch(
+					"userInfo",
+					JSON.parse(window.localStorage.getItem("token"))
+				);
+			}
 		},
 		mounted() {},
 	};
@@ -119,7 +125,7 @@
 	// 	display: block;
 	// }
 	.el-card__palette {
-		height: 100%;
+		height: 80%;
 		border-radius: 10px;
 		.el-card__body {
 			width: 100%;

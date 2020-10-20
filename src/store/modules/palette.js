@@ -23,12 +23,12 @@ export default {
     mutations: {
         setPalette() { },
         setPaletteColor() { },
-        setPaletteItem(state, index = undefined) {
-            if (index == undefined) {
-                state.item = palette_data.item(state._id);
+        setPaletteItem(state, id = undefined) {
+            if (id == undefined) {
+                state.item = palette_data.item();
             } else {
-                state.item = JSON.parse(JSON.stringify(state.list[index]));
-                state.dialog.index = index;
+                state.item = JSON.parse(JSON.stringify(state.list.filter(v => v.id === id)[0]));
+                // state.dialog.index = index;
             }
         },
         setPaletteList(state, list) {
@@ -49,6 +49,16 @@ export default {
         },
         palette_active: (state) => (id) => {
             return state.filter(v => v.id === id)[0];
+        },
+        palette_index: state => id => {
+            let i = -1;
+            state.list.forEach((palette, index) => {
+                if (palette.id == id) {
+                    i = index;
+                    return;
+                }
+            });
+            return i;
         }
     },
     actions: {

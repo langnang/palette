@@ -14,6 +14,10 @@
 #### New Feature
 
 - [x] /palette/list
+- [x] /palette/insert
+- [x] /palette/delete
+- [x] /palette/update
+- [x] /nav/list
 
 #### Bug
 

@@ -1,2 +1,1 @@
-import './gradient';
-import './res';
+import './function';

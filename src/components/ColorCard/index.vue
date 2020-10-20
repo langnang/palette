@@ -1,7 +1,7 @@
 <template>
-	<el-row :gutter="10" style="margin-left: 0; margin-right: 0">
+	<el-row :gutter="30" style="margin-left: 0; margin-right: 0">
 		<el-col
-			:span="4"
+			:span="6"
 			v-for="(palette, index) in palette_list"
 			:key="index"
 			class="el-col"
@@ -19,27 +19,28 @@
 					top: '5px',
 					color: '#66b1ff',
 				}"
+				v-if="false"
 			></i>
 			<el-card
 				v-if="palette.type === 'single'"
 				class="el-card__palette"
 				:style="{ 'background-color': palette.colors[0] }"
-				@click.native="clickCard(palette.id)"
+				@click.native="showCarousel(index)"
 			>
 			</el-card>
 			<el-card
 				v-else-if="palette.type === 'gradient'"
 				class="el-card__palette"
 				:style="{
-					background: $gradient(palette.colors),
+					background: $func.palette.gradient(palette.colors),
 				}"
-				@click.native="clickCard(palette.id)"
+				@click.native="showCarousel(index)"
 			>
 			</el-card>
 			<el-card
 				v-else-if="palette.type === 'multi'"
 				class="el-card__palette"
-				@click.native="clickCard(palette.id)"
+				@click.native="showCarousel(index)"
 			>
 				<span
 					class="el-card__body-multi"
@@ -48,32 +49,189 @@
 					:style="{ 'background-color': color }"
 				></span>
 			</el-card>
-			<div class="el-palette__icons" :style="{}">
+			<!-- <p>{{ palette.name }}</p> -->
+			<!-- <p>{{ palette.colors }}</p> -->
+			<div class="el-palette__icons" :style="{}" v-if="false">
 				<el-button
 					icon="el-icon-view"
 					circle
 					@click="showCarousel(index)"
 				></el-button>
-				<el-button
+				<!-- <el-button
 					icon="el-icon-edit"
 					circle
-					@click="editPalette(index)"
+					@click="editPalette(palette.id)"
+					v-if="user.id"
 				></el-button>
 				<el-popconfirm
 					title="确定要删除吗"
 					@onConfirm="$store.dispatch('deletePalette', index)"
 					:style="{ margin: '0 10px' }"
+					v-if="user.id"
 				>
 					<el-button
 						icon="el-icon-delete"
 						circle
 						slot="reference"
 					></el-button>
-				</el-popconfirm>
-				<el-button icon="el-icon-info" circle v-if="false"></el-button>
-				<font-awesome-icon :icon="['far', 'thumbs-up']" /> 0
-				<font-awesome-icon :icon="['far', 'heart']" /> 0
-				<font-awesome-icon :icon="['far', 'star']" /> 0
+				</el-popconfirm> -->
+				<el-popover
+					placement="top-start"
+					:title="palette.name"
+					trigger="hover"
+					:style="{ margin: '0 10px' }"
+					:content="palette.colors.join()"
+				>
+					<el-button
+						icon="el-icon-info"
+						circle
+						slot="reference"
+					></el-button>
+				</el-popover>
+				<font-awesome-icon
+					:icon="['far', 'thumbs-up']"
+					@click="$func.comment.thumbsUp(palette.id)"
+				/>
+				0
+				<font-awesome-icon
+					:icon="['far', 'heart']"
+					@click="$func.comment.heart(palette.id)"
+				/>
+				0
+				<font-awesome-icon
+					:icon="['far', 'star']"
+					@click="$func.comment.star(palette.id)"
+				/>
+				0
+			</div>
+			<div
+				class="el-palette__info"
+				:style="{ 'background-color': 'white' }"
+			>
+				<span
+					class="el-palette__info-name"
+					:style="{
+						margin: '0',
+					}"
+				>
+					{{ palette.name }}
+				</span>
+				<span
+					class="el-palette__info-author"
+					:style="{
+						margin: '0',
+					}"
+				>
+					By {{ palette.user_name }}
+				</span>
+				<br />
+				<span
+					class="el-palette__info-colors"
+					:style="{
+						margin: '0',
+					}"
+				>
+					{{
+						palette.type == "single"
+							? palette.colors[0]
+							: palette.type == "gradient"
+							? palette.colors.join("=>")
+							: palette.colors.join()
+					}}
+				</span>
+				<span
+					class="el-palette__info-comment"
+					:style="{
+						margin: '0',
+					}"
+				>
+					<font-awesome-icon
+						:icon="['far', 'thumbs-up']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								thumbs_up: 1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							!comment_info(palette.id) ||
+							comment_info(palette.id).thumbs_up <= 0
+						"
+					/>
+					<font-awesome-icon
+						:icon="['fas', 'thumbs-up']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								thumbs_up: -1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							comment_info(palette.id) &&
+							comment_info(palette.id).thumbs_up > 0
+						"
+					/>
+					{{ palette.thumbs_up }}
+					<font-awesome-icon
+						:icon="['far', 'heart']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								heart: 1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							!comment_info(palette.id) ||
+							comment_info(palette.id).heart <= 0
+						"
+					/><font-awesome-icon
+						:icon="['fas', 'heart']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								heart: -1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							comment_info(palette.id) &&
+							comment_info(palette.id).heart > 0
+						"
+					/>
+					{{ palette.heart }}
+					<font-awesome-icon
+						:icon="['far', 'star']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								star: 1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							!comment_info(palette.id) ||
+							comment_info(palette.id).star <= 0
+						"
+					/>
+					<font-awesome-icon
+						:icon="['fas', 'star']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								star: -1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							comment_info(palette.id) &&
+							comment_info(palette.id).star > 0
+						"
+					/>
+					{{ palette.star }}
+				</span>
 			</div>
 		</el-col>
 	</el-row>
@@ -89,14 +247,15 @@
 				palette_dialog: (state) => state.palette.dialog,
 				palette_select: (state) => state.palette.select,
 				palette_carousel: (state) => state.palette.carousel,
+				user: (state) => state.user.info,
 			}),
-			...mapGetters(["palette_list"]),
+			...mapGetters(["palette_list", "comment_info"]),
 		},
 		methods: {
-			editPalette(index) {
+			editPalette(id) {
 				this.palette_dialog.target = "update";
 				this.palette_dialog.visible = true;
-				this.$store.commit("setPaletteItem", index);
+				this.$store.commit("setPaletteItem", id);
 			},
 			showCarousel(index) {
 				this.palette_carousel.index = index;
@@ -125,7 +284,7 @@
 <style lang="scss" scoped>
 	::v-deep .el-col {
 		padding: 6px 0;
-		height: 150px;
+		height: 180px;
 		text-align: center;
 	}
 	// .box-card .el-card__body {
@@ -151,5 +310,17 @@
 	}
 	::v-deep .el-col:hover .el-palette__icons {
 		display: inline-block;
+	}
+	.svg-inline--fa:hover {
+		color: red;
+	}
+	.el-palette__info {
+		text-align: left;
+		&-name {
+		}
+		&-author,
+		&-comment {
+			float: right;
+		}
 	}
 </style>

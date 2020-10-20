@@ -22,50 +22,6 @@
 				</a>
 			</el-menu-item>
 		</el-submenu>
-		<!-- <el-submenu index="sigle">
-			<template slot="title">单色类</template>
-			<el-menu-item index="sigle-1">
-				<router-link to="/single/websafe"> 216 Web 安全色 </router-link>
-			</el-menu-item>
-			<el-menu-item index="sigle-2">
-				<router-link to="/single/random">随机色</router-link>
-			</el-menu-item>
-			<el-menu-item index="sigle-3">
-				<a href="http://zhongguose.com/" target="_blank"
-					>中国色 - 中国传统颜色</a
-				>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="gradient">
-			<template slot="title">渐变类</template>
-			<el-menu-item index="gradient-1">
-				<a href="https://uigradients.com/" target="_blank">
-					uiGradients - Beautiful colored gradients
-				</a>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="multi">
-			<template slot="title">多色类</template>
-			<el-menu-item index="multi-1">
-				<a href="http://tool.c7sky.com/webcolor/" target="_blank">
-					网页设计常用色彩搭配表 - 配色表 | 小影的工具箱
-				</a>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="util">
-			<template slot="title">工具类</template>
-			<el-menu-item index="util-1">
-				<a href="https://colors.muz.li/">
-					Color Palette Generator - Create Beautiful Color Schemes
-				</a>
-			</el-menu-item>
-			<el-menu-item index="util-2">
-				<a href="https://mycolor.space/">
-					ColorSpace - Color Palettes Generator and Color Gradient
-					Tool
-				</a>
-			</el-menu-item>
-		</el-submenu> -->
 		<span
 			:style="{
 				'line-height': '60px',
@@ -87,21 +43,62 @@
 				icon="el-icon-plus"
 				circle
 				@click="addPalette()"
+				v-if="false"
 			></el-button>
 			<el-button
 				icon="el-icon-delete"
 				circle
 				:disabled="palette_select.length ? false : true"
 				@click="deletePalette()"
+				v-if="false"
 			></el-button>
 			<el-button
 				icon="el-icon-download"
 				circle
 				:disabled="palette_select.length ? false : true"
 				@click="downloadPaletteList()"
+				v-if="false"
 			></el-button>
-			<el-button circle v-if="false">
+			<el-button circle v-if="user">
 				<font-awesome-icon :icon="['fas', 'user']" />
+			</el-button>
+			<router-link
+				to="/user/register"
+				:style="{ 'margin-left': '10px' }"
+				v-if="user === null"
+			>
+				<el-button
+					circle
+					:style="{
+						'border-radius': '8px',
+					}"
+				>
+					注 册
+				</el-button>
+			</router-link>
+			<router-link
+				to="/user/sign-in"
+				:style="{ 'margin-left': '10px' }"
+				v-if="user === null"
+			>
+				<el-button
+					circle
+					:style="{
+						'border-radius': '8px',
+					}"
+				>
+					登 录
+				</el-button>
+			</router-link>
+			<el-button
+				circle
+				:style="{
+					'border-radius': '8px',
+				}"
+				@click="$store.dispatch('userSignOut')"
+				v-if="user"
+			>
+				登 出
 			</el-button>
 		</span>
 	</el-menu>
@@ -120,6 +117,7 @@
 				palette_select: (state) => state.palette.select,
 				palette_filter: (state) => state.palette.filter,
 				navs: (state) => state.navs,
+				user: (state) => state.user.info,
 			}),
 			...mapGetters([]),
 		},

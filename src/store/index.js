@@ -1,19 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import palette from './modules/palette';
+import user from './modules/user';
+import comment from './modules/comment';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     palette,
+    user,
+    comment,
   },
   state: {
-    user: {
-      loading: false,
-      loading_spinner: "",
-      loading_text: "页面加载中..."
-    },
+    // user: {
+    //   loading: false,
+    //   loading_spinner: "",
+    //   loading_text: "页面加载中..."
+    // },
     colors: {
     },
     navs: [],

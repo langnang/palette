@@ -20,9 +20,11 @@ export const update = (item) => {
     // _list.splice(index, 1, item);
     // create(_list);
 };
-export const list = () => {
-    return axios.post("/api/palette/list", { token: {} });
-    // return JSON.parse(window.localStorage.getItem(key));
+export const list = (token) => {
+    if (!token) {
+        return axios.get("/api/palette/list");
+    }
+    return axios.post("/api/palette/list", { token });
 };
 export const info = (index) => {
     const _list = list();

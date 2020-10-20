@@ -22,7 +22,7 @@
 					v-else-if="palette.type === 'gradient'"
 					class="el-card__color"
 					:style="{
-						background: $gradient(palette.colors),
+						background: $func.palette.gradient(palette.colors),
 					}"
 				>
 				</el-card>
