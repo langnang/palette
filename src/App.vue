@@ -40,37 +40,21 @@
 			...mapGetters(["refs"]),
 		},
 		created() {
-			if (!api.palette.is()) {
-				api.palette.create([
-					{
-						id: 1,
-						type: "single",
-						colors: ["#000000"],
-						name: "Black",
-					},
-					{
-						id: 2,
-						type: "gradient",
-						colors: ["#1c92d2", "#f2fcfe"],
-						name: "Telegram",
-					},
-					{
-						id: 3,
-						type: "multi",
-						colors: [
-							"red",
-							"orange",
-							"yellow",
-							"green",
-							"blue",
-							"indigo",
-							"violet",
-						],
-						name: "太阳七色",
-					},
-				]);
-			} else {
-				this.$store.commit("setPaletteList", api.palette.list());
+			api.palette.list().then((res) => {
+				if (res.data.status == 200) {
+					this.$store.commit("setPaletteList", res.data.data);
+				}
+			});
+			api.nav.list().then((res) => {
+				if (res.data.status == 200) {
+					this.$store.commit("setNavs", res.data.data.children);
+				}
+			});
+			if (window.localStorage.getItem("token")) {
+				this.$store.dispatch(
+					"userInfo",
+					JSON.parse(window.localStorage.getItem("token"))
+				);
 			}
 		},
 		mounted() {},
@@ -141,7 +125,7 @@
 	// 	display: block;
 	// }
 	.el-card__palette {
-		height: 100%;
+		height: 80%;
 		border-radius: 10px;
 		.el-card__body {
 			width: 100%;

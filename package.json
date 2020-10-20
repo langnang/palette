@@ -1,8 +1,8 @@
 {
-  "name": "colors",
-  "version": "1.0.0",
+  "name": "palette",
+  "version": "0.0.2",
   "private": true,
-  "homepage": "https://langnang.github.io/Colors/",
+  "homepage": "https://langnang.github.io/Palette/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
+    "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/vue-fontawesome": "^0.1.5",
     "core-js": "^3.6.4",
     "element-ui": "^2.4.5",
+    "file-saver": "^2.0.2",
     "particles.js": "^2.0.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",

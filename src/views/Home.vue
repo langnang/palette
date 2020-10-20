@@ -13,7 +13,7 @@
 			ColorCard,
 		},
 		created() {
-			this.$store.dispatch("loadMenu");
+			// this.$store.dispatch("loadMenu");
 		},
 		computed: {
 			...mapState({}),

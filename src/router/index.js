@@ -2,11 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import RouteView from '../views/RouteView.vue'
 import Home from '../views/Home.vue'
-import Single from '../views/Single.vue'
-import WebSafe from '../views/WebSafe.vue'
-import Palette from '../views/Palette.vue'
-import Random from '../views/Random.vue'
-import Gradient from '../views/Gradient.vue'
 
 Vue.use(VueRouter)
 
@@ -18,61 +13,19 @@ const routes = [
     meta: { title: "Home" }
   },
   {
-    path: "/single",
-    name: "Single Color",
+    path: '/user',
+    name: 'User',
     component: RouteView,
+    meta: { title: "User" },
     children: [
       {
-        path: "websafe",
-        name: "WebSafe",
-        component: WebSafe,
-        meta: { title: "216 Web Safe" }
-      },
-      {
-        path: "random",
-        name: "Random",
-        component: Random,
-        meta: { title: "Random" }
-      },
-      {
-        path: ":key",
-        name: "Single",
-        component: Single,
-        meta: { title: "Single Colors" }
-      },
-    ],
-  },
-  {
-    path: "/gradient",
-    name: "Gradient Colors",
-    component: RouteView,
-    children: [
-      {
-        path: ":key",
-        name: "Gradient",
-        component: Gradient,
-        meta: { title: "Gradient Colors" }
+        path: "sign-in",
+        name: "Sign In",
+        component: () => import('@/views/user/sign-in.vue'),
+        meta: { title: "Sign In" }
       },
     ]
   },
-  {
-    path: "/palette",
-    name: "Color Palettes",
-    component: RouteView,
-    children: [
-      {
-        path: ":key",
-        name: "Palette",
-        component: Palette,
-        meta: { title: "Color Palettes" }
-      },
-    ]
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
 ]
 
 const router = new VueRouter({

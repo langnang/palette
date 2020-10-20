@@ -5,16 +5,24 @@
 			:visible.sync="palette_dialog.visible"
 			:close-on-press-escape="false"
 			:close-on-click-modal="false"
-			@before-close="$store.commit('setPaletteItem')"
+			@closed="$store.commit('setPaletteItem')"
 		>
 			<el-form :model="palette" :rules="rules" ref="palette">
-				<el-form-item label="名称" :label-width="labelWidth">
+				<el-form-item
+					label="名称"
+					:label-width="labelWidth"
+					prop="name"
+				>
 					<el-input
 						v-model="palette.name"
 						autocomplete="off"
 					></el-input>
 				</el-form-item>
-				<el-form-item label="类别" :label-width="labelWidth">
+				<el-form-item
+					label="类别"
+					:label-width="labelWidth"
+					prop="type"
+				>
 					<el-select
 						v-model="palette.type"
 						placeholder="请选择颜色类别"
@@ -27,6 +35,7 @@
 				</el-form-item>
 				<el-form-item
 					label="单色"
+					prop="colors"
 					v-if="palette.type === 'single'"
 					:label-width="labelWidth"
 					:style="{
@@ -39,6 +48,7 @@
 				</el-form-item>
 				<el-form-item
 					label="渐变"
+					prop="colors"
 					v-if="palette.type === 'gradient'"
 					:label-width="labelWidth"
 					:style="{
@@ -62,6 +72,7 @@
 				</el-form-item>
 				<el-form-item
 					label="多色"
+					prop="colors"
 					v-if="palette.type === 'multi'"
 					:label-width="labelWidth"
 					:style="{
@@ -94,7 +105,7 @@
 						class="el-card__palette"
 						v-else-if="palette.type === 'gradient'"
 						:style="{
-							background: $gradient(palette.colors),
+							background: $func.palette.gradient(palette.colors),
 						}"
 					>
 					</el-card>
@@ -142,6 +153,20 @@
 							trigger: "change",
 						},
 					],
+					colors: [
+						{
+							required: true,
+							validator: function (rule, value, callback) {
+								console.log(this);
+								if (value.filter((v) => v == "").length == 0) {
+									callback();
+								} else {
+									callback(new Error("请选择颜色"));
+								}
+							},
+							trigger: "blur",
+						},
+					],
 				},
 			};
 		},
@@ -159,17 +184,23 @@
 			submit() {
 				this.$refs["palette"].validate((valid) => {
 					if (valid) {
-						if (this.palette_dialog.target == "insert") {
+						if (this.palette.id == null) {
 							this.$store.dispatch("insertPalette");
-						} else if (this.palette_dialog.target == "update") {
+						} else {
 							this.$store.dispatch("updatePalette");
 						}
 						this.palette_dialog.visible = false;
 					} else {
-						console.log("error submit!!");
 						return false;
 					}
 				});
+			},
+		},
+		watch: {
+			"palette.type": function (newV) {
+				if (newV === "single") {
+					this.palette.colors.length = 1;
+				}
 			},
 		},
 	};

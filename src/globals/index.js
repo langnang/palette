@@ -1,1 +1,1 @@
-import './gradient';
+import './function';

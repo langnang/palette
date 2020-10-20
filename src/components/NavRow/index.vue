@@ -10,47 +10,15 @@
 		<el-menu-item index="home">
 			<router-link to="/"> 首页 </router-link>
 		</el-menu-item>
-		<el-submenu index="sigle">
-			<template slot="title">单色类</template>
-			<el-menu-item index="sigle-1">
-				<router-link to="/single/websafe"> 216 Web 安全色 </router-link>
-			</el-menu-item>
-			<el-menu-item index="sigle-2">
-				<router-link to="/single/random">随机色</router-link>
-			</el-menu-item>
-			<el-menu-item index="sigle-3">
-				<a href="http://zhongguose.com/" target="_blank"
-					>中国色 - 中国传统颜色</a
-				>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="gradient">
-			<template slot="title">渐变类</template>
-			<el-menu-item index="gradient-1">
-				<a href="https://uigradients.com/" target="_blank">
-					uiGradients - Beautiful colored gradients
-				</a>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="multi">
-			<template slot="title">多色类</template>
-			<el-menu-item index="multi-1">
-				<a href="http://tool.c7sky.com/webcolor/" target="_blank">
-					网页设计常用色彩搭配表 - 配色表 | 小影的工具箱
-				</a>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="util">
-			<template slot="title">工具类</template>
-			<el-menu-item index="util-1">
-				<a href="https://colors.muz.li/">
-					Color Palette Generator - Create Beautiful Color Schemes
-				</a>
-			</el-menu-item>
-			<el-menu-item index="util-2">
-				<a href="https://mycolor.space/">
-					ColorSpace - Color Palettes Generator and Color Gradient
-					Tool
+		<el-submenu v-for="nav_1 in navs" :key="nav_1.id" :index="nav_1.type">
+			<template slot="title">{{ nav_1.name }}</template>
+			<el-menu-item
+				v-for="nav_2 in nav_1.children"
+				:key="nav_2.id"
+				:index="nav_1.type + '-' + nav_2.id"
+			>
+				<a :href="nav_2.link" target="_blank">
+					{{ nav_2.name }}
 				</a>
 			</el-menu-item>
 		</el-submenu>
@@ -64,9 +32,9 @@
 			<el-select
 				v-model="palette_filter.type"
 				placeholder="请选择"
-				:style="{ 'margin-right': '10px', width: '110px' }"
+				:style="{ 'margin-right': '10px', width: '90px' }"
 			>
-				<el-option label="全部色类" value="all"> </el-option>
+				<el-option label="全部" value="all"> </el-option>
 				<el-option label="单色" value="single"> </el-option>
 				<el-option label="渐变" value="gradient"> </el-option>
 				<el-option label="多色" value="multi"> </el-option>
@@ -75,19 +43,69 @@
 				icon="el-icon-plus"
 				circle
 				@click="addPalette()"
+				v-if="false"
 			></el-button>
 			<el-button
-				v-if="false"
 				icon="el-icon-delete"
 				circle
 				:disabled="palette_select.length ? false : true"
 				@click="deletePalette()"
+				v-if="false"
 			></el-button>
+			<el-button
+				icon="el-icon-download"
+				circle
+				:disabled="palette_select.length ? false : true"
+				@click="downloadPaletteList()"
+				v-if="false"
+			></el-button>
+			<el-button circle v-if="user">
+				<font-awesome-icon :icon="['fas', 'user']" />
+			</el-button>
+			<router-link
+				to="/user/register"
+				:style="{ 'margin-left': '10px' }"
+				v-if="user === null"
+			>
+				<el-button
+					circle
+					:style="{
+						'border-radius': '8px',
+					}"
+				>
+					注 册
+				</el-button>
+			</router-link>
+			<router-link
+				to="/user/sign-in"
+				:style="{ 'margin-left': '10px' }"
+				v-if="user === null"
+			>
+				<el-button
+					circle
+					:style="{
+						'border-radius': '8px',
+					}"
+				>
+					登 录
+				</el-button>
+			</router-link>
+			<el-button
+				circle
+				:style="{
+					'border-radius': '8px',
+				}"
+				@click="$store.dispatch('userSignOut')"
+				v-if="user"
+			>
+				登 出
+			</el-button>
 		</span>
 	</el-menu>
 </template>
 <script>
 	import { mapState, mapGetters } from "vuex";
+	import FileSaver from "file-saver";
 	export default {
 		data() {
 			return {};
@@ -95,8 +113,11 @@
 		computed: {
 			...mapState({
 				palette_dialog: (state) => state.palette.dialog,
+				palette_list: (state) => state.palette.list,
 				palette_select: (state) => state.palette.select,
 				palette_filter: (state) => state.palette.filter,
+				navs: (state) => state.navs,
+				user: (state) => state.user.info,
 			}),
 			...mapGetters([]),
 		},
@@ -112,18 +133,20 @@
 					type: "warning",
 				})
 					.then(() => {
-						console.log(this.palette_select);
-						this.$message({
-							type: "success",
-							message: "删除成功!",
-						});
+						// console.log(this.palette_select);
+						this.$store.dispatch("batchDeletePalette");
 					})
-					.catch(() => {
-						this.$message({
-							type: "info",
-							message: "已取消删除",
-						});
-					});
+					.catch(() => {});
+			},
+			downloadPaletteList() {
+				let data = this.palette_list.filter(
+					(v) => this.palette_select.indexOf(v.id) != -1
+				);
+				var content = JSON.stringify(data);
+				var blob = new Blob([content], {
+					type: "text/plain;charset=utf-8",
+				});
+				FileSaver.saveAs(blob, "palette_list.json");
 			},
 		},
 		watch: {},
@@ -132,6 +155,9 @@
 <style lang="scss" scoped>
 	a {
 		text-decoration: none;
+	}
+	a:-webkit-any-link {
+		color: white;
 	}
 	.theme-dark {
 		::v-deep .el-select {
@@ -156,7 +182,7 @@
 		background-color: transparent;
 	}
 	::v-deep .el-button.is-circle {
-		font-size: 5px;
+		font-size: 17px;
 		padding: 5px;
 	}
 	.el-button {
