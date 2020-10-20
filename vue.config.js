@@ -5,6 +5,7 @@ module.exports = {
         : '/',
     devServer: {
         port: 9503,// 自定义端口
+
     },
     chainWebpack: config => {
         config
