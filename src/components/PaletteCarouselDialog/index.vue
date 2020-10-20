@@ -37,6 +37,109 @@
 						:style="{ 'background-color': color }"
 					></span>
 				</el-card>
+				<div class="el-palette__info-name" :style="{}">
+					{{ palette.name }}
+				</div>
+				<div class="el-palette__info-author" :style="{}">
+					By {{ palette.user_name }}
+				</div>
+				<div class="el-palette__info-colors" :style="{}">
+					{{
+						palette.type == "single"
+							? palette.colors[0]
+							: palette.type == "gradient"
+							? palette.colors.join("=>")
+							: palette.colors.join()
+					}}
+				</div>
+				<div class="el-palette__info-comment" :style="{}">
+					<font-awesome-icon
+						:icon="['far', 'thumbs-up']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								thumbs_up: 1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							!comment_info(palette.id) ||
+							comment_info(palette.id).thumbs_up <= 0
+						"
+					/>
+					<font-awesome-icon
+						:icon="['fas', 'thumbs-up']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								thumbs_up: -1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							comment_info(palette.id) &&
+							comment_info(palette.id).thumbs_up > 0
+						"
+					/>
+					{{ palette.thumbs_up }}
+					<font-awesome-icon
+						:icon="['far', 'heart']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								heart: 1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							!comment_info(palette.id) ||
+							comment_info(palette.id).heart <= 0
+						"
+					/><font-awesome-icon
+						:icon="['fas', 'heart']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								heart: -1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							comment_info(palette.id) &&
+							comment_info(palette.id).heart > 0
+						"
+					/>
+					{{ palette.heart }}
+					<font-awesome-icon
+						:icon="['far', 'star']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								star: 1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							!comment_info(palette.id) ||
+							comment_info(palette.id).star <= 0
+						"
+					/>
+					<font-awesome-icon
+						:icon="['fas', 'star']"
+						@click="
+							$store.dispatch('commentInsert', {
+								type_id: palette.id,
+								star: -1,
+								palette_index: index,
+							})
+						"
+						v-if="
+							comment_info(palette.id) &&
+							comment_info(palette.id).star > 0
+						"
+					/>
+					{{ palette.star }}
+				</div>
 			</el-carousel-item>
 		</el-carousel>
 	</el-dialog>
@@ -53,7 +156,7 @@
 			...mapState({
 				palette_carousel: (state) => state.palette.carousel,
 			}),
-			...mapGetters(["palette_list"]),
+			...mapGetters(["palette_list", "comment_info"]),
 		},
 		methods: {},
 		watch: {
@@ -87,5 +190,29 @@
 	.color-multi {
 		display: inline-block;
 		flex-grow: 1;
+	}
+	.svg-inline--fa:hover {
+		color: red;
+	}
+	.el-palette__info {
+		&-name {
+			position: absolute;
+			top: 0;
+			text-align: center;
+			width: 100%;
+		}
+		&-author {
+			margin-top: -20px;
+		}
+		&-colors {
+			position: absolute;
+			top: 20px;
+			text-align: center;
+			width: 100%;
+		}
+		&-comment {
+			margin-top: -20px;
+			text-align: right;
+		}
 	}
 </style>
