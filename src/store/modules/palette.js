@@ -1,6 +1,7 @@
-import { palette as api_palette } from '@/api';
+import { list, insert, del, update, } from '@/api/palette';
 import * as palette_data from '@/data/palette';
 export default {
+    namespaced: true,
     state: {
         _id: 0,
         item: palette_data.item(),
@@ -21,6 +22,10 @@ export default {
         series: [],
     },
     mutations: {
+        SET_LIST(state, list) {
+            state.list.splice(0, 0, ...list);
+            state._id = list.reduce((total, val) => total > val.id ? total : val.id + 1, state._id);
+        },
         setPalette() { },
         setPaletteColor() { },
         setPaletteItem(state, id = undefined) {
@@ -40,13 +45,7 @@ export default {
         }
     },
     getters: {
-        palette_list: (state) => {
-            if (state.filter.type == 'all') {
-                return state.list;
-            } else {
-                return state.list.filter(v => v.type === state.filter.type);
-            }
-        },
+
         palette_active: (state) => (id) => {
             return state.filter(v => v.id === id)[0];
         },
@@ -62,8 +61,15 @@ export default {
         }
     },
     actions: {
+        getList({ commit }) {
+            list().then((res) => {
+                if (res.data.status == 200) {
+                    commit("SET_LIST", res.data.data);
+                }
+            });
+        },
         insertPalette({ state }) {
-            api_palette.insert(state.item)
+            insert(state.item)
                 .then(res => {
                     if (res.data.status === 200) {
                         this._vm.$message({
@@ -80,7 +86,7 @@ export default {
                 });
         },
         deletePalette({ state }, index) {
-            api_palette.del(JSON.parse(JSON.stringify(state.list[index])))
+            del(JSON.parse(JSON.stringify(state.list[index])))
                 .then(res => {
                     if (res.data.status === 200) {
                         this._vm.$message({
@@ -105,10 +111,9 @@ export default {
                 }
             })
             state.select = [];
-            api_palette.create(state.list);
         },
         updatePalette({ state }) {
-            api_palette.update(JSON.parse(JSON.stringify(state.item)))
+            update(JSON.parse(JSON.stringify(state.item)))
                 .then(res => {
                     if (res.data.status === 200) {
                         this._vm.$message({

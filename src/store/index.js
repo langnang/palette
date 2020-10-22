@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import getters from '@/store/getters';
 import palette from './modules/palette';
 import user from './modules/user';
 import comment from './modules/comment';
 
+import api from '@/api';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -23,7 +25,7 @@ export default new Vuex.Store({
     navs: [],
   },
   mutations: {
-    setNavs(state, payload) {
+    SET_NAVS(state, payload) {
       state.navs = payload;
     },
     setColors(state, payload) {
@@ -49,50 +51,15 @@ export default new Vuex.Store({
     },
 
   },
-  getters: {
-    colors: state => {
-      let _res = {};
-      for (let key in state.colors) {
-        if (key !== 'refs' && key !== 'utils') {
-          _res[key] = state.colors[key];
-        }
-      }
-      return _res;
-    },
-    refs: state => state.colors.refs && state.colors.refs.children ? state.colors.refs.children._.children : [],
-    utils: state => state.colors.utils && state.colors.utils.children ? state.colors.utils.children._.children : [],
-    single: state => key => {
-      if (!state.colors.single) {
-        return {
-          name: "Single Color",
-          title: "",
-          children: []
-        };
-      }
-      return state.colors.single.children[key];
-    },
-    gradient: state => key => {
-      if (!state.colors.gradient) {
-        return {
-          name: "Gradient Color",
-          title: "",
-          children: []
-        };
-      }
-      return state.colors.gradient.children[key];
-    },
-    palette: state => key => {
-      if (!state.colors.palette) {
-        return {
-          name: "Color Palette",
-          title: "",
-          children: []
-        };
-      }
-      return state.colors.palette.children[key];
-    }
-  },
+  getters,
   actions: {
+    getNavs({ commit }) {
+      api.nav.list().then((res) => {
+        if (res.data.status == 200) {
+          commit("SET_NAVS", res.data.data.children);
+        }
+      });
+    }
     // async loadMenu({ commit }) {
     //   return this._vm.$axios
     //     .get("https://api.github.com/repos/langnang/Palette/issues/1")

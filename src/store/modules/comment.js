@@ -1,5 +1,6 @@
 import { comment as api_comment } from '@/api';
 export default {
+    namespaced: true,
     state: {
         info: {},
         token: {},
@@ -11,19 +12,7 @@ export default {
         }
     },
     getters: {
-        comment_info: state => type_id => {
-            return state.list.filter(v => v.type_id == type_id)[0]
-        },
-        comment_index: state => type_id => {
-            let i = -1;
-            state.list.forEach((comment, index) => {
-                if (comment.type_id == type_id) {
-                    i = index;
-                    return;
-                }
-            });
-            return i;
-        }
+
     },
     actions: {
         commentInsert({ state, getters, rootState, rootGetters }, comment) {

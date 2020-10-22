@@ -200,19 +200,23 @@
 			top: 0;
 			text-align: center;
 			width: 100%;
+			font-size: 20px;
 		}
 		&-author {
-			margin-top: -20px;
+			margin-top: -30px;
+			font-size: 20px;
 		}
 		&-colors {
 			position: absolute;
-			top: 20px;
+			top: 30px;
 			text-align: center;
 			width: 100%;
+			font-size: 20px;
 		}
 		&-comment {
-			margin-top: -20px;
+			margin-top: -30px;
 			text-align: right;
+			font-size: 20px;
 		}
 	}
 </style>

@@ -1,6 +1,7 @@
 import { user as api_user } from '@/api';
 import router from '@/router';
 export default {
+    namespaced: true,
     state: {
         info: null,
         token: null,
@@ -18,7 +19,7 @@ export default {
 
     },
     actions: {
-        userSignIn({ commit, dispatch }, payload) {
+        signIn({ commit, dispatch }, payload) {
             api_user.sign_in(payload)
                 .then(res => {
                     if (res.data.status === 200) {
@@ -41,7 +42,7 @@ export default {
                     }
                 })
         },
-        userSignOut({ commit }) {
+        signOut({ commit }) {
             api_user.sign_out()
                 .then(res => {
                     if (res.data.status === 200) {
@@ -65,7 +66,7 @@ export default {
                     }
                 })
         },
-        userInfo({ commit, dispatch }, payload) {
+        getInfo({ commit, dispatch }, payload) {
             api_user.info(payload)
                 .then(res => {
                     if (res.data.status === 200) {
