@@ -1,10 +1,11 @@
 {
   "name": "palette",
-  "version": "0.0.2",
-  "private": true,
+  "description": "调色板",
   "homepage": "https://langnang.github.io/Palette/",
+  "version": "0.0.3",
+  "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -57,5 +58,18 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/langnang/Palette.git"
+  },
+  "keywords": [
+    "langnang",
+    "palette"
+  ],
+  "author": "langnang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/langnang/Palette/issues"
+  }
 }
