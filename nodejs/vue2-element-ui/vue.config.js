@@ -1,7 +1,7 @@
 module.exports = {
   outputDir: 'dist',
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/nodejs/pattle/'
+    ? '/ui/nodejs/pattle/'
     : '/',
   devServer: {
     port: 9503,// 自定义端口

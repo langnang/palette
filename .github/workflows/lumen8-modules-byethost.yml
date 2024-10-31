@@ -41,7 +41,7 @@ jobs:
           # local dir
           local-dir: ./nodejs/vue2-element-ui/dist/
           # Path to upload to on the server. Must end with trailing slash /
-          server-dir: /htdocs/~/nodejs/pattle/
+          server-dir: /htdocs/ui/nodejs/pattle/
           # File to Exclude
           exclude: |
             **/.git*
